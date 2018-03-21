@@ -1,0 +1,60 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+%\usepackage{natbib}
+%\usepackage[style=apa, backend = bibtex]{biblatex}
+\usepackage[numbers]{natbib}
+\usepackage{bibentry}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule,
+
+% Latin Modern
+\usepackage{lmodern}
+% Verdana font type
+%\usepackage{verdana}
+% Helvetica
+%\usepackage{helvet}
+% Times (text and math)
+%\usepackage{newtx, newtxmath}
+
+\usetheme[department=compute]{DTU}
+
+\title[Applied 3D Vision]{Applied 3D Vision}
+\author{Sebastian Hoppe Nesgaard Jensen}
+\institute{Image Analysis \& Computer Graphics}
+\date{\today}
+
+\newcommand{\tabitem}{{\color{dtured}$\bullet$} }
+%\setcounter{subsection}{1}
+\useoutertheme{miniframes}
+\AtBeginSection[]{\subsection{}}
+
+\begin{document}
+\nobibliography*
+\frame{
+	\maketitle
+}
+
+\frame{
+  \frametitle{Disposition}
+  \tableofcontents
+}
+
+\input{chapters/intro}
+\input{chapters/nrsfm}
+\input{chapters/robot}
+
+\frame{
+	\frametitle{References}
+	\bibliographystyle{amsalpha}
+	\bibliography{biblio}
+}
+
+\end{document}
