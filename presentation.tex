@@ -14,7 +14,8 @@
 \usepackage{bibentry}
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule,
-
+%\usepackage{subcaption}
+\usepackage{subfig}
 % Latin Modern
 \usepackage{lmodern}
 % Verdana font type
@@ -42,19 +43,16 @@
 	\maketitle
 }
 
-\frame{
-  \frametitle{Disposition}
-  \tableofcontents
-}
-
 \input{chapters/intro}
-\input{chapters/nrsfm}
+\input{chapters/stl}
 \input{chapters/robot}
+\input{chapters/nrsfm}
+
 
 \frame{
 	\frametitle{References}
-	\bibliographystyle{amsalpha}
-	\bibliography{biblio}
+	\bibliographystyle{ieeetr}
+	{\small \bibliography{biblio}}
 }
 
 \end{document}

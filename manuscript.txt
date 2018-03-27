@@ -1,108 +1,146 @@
 # Introduction
 
+## Slide 1
 Tody I will be defending my PhD thesis entitled "Applied 3D Vision". In this presentation
 I will give an overview of the work that I have done during these past 3 years, but first
-I will elaborate on the meaning of title.
+I will elaborate on the meaning of title and the motivation behind my work.
 
-3D vision refers to the process of inferring the 3D shape of world using camera image data.
-As you probably know camera's do not show the 3-dimensional world, but rather a projection.
-So recover the observed objects 3D geometry is not so straight forward from a single image.
-However you can estimated the geometry by combining multiple observations from different points of view.
+## Slide 2
+So the first part; 3D vision as you probably know is process of estimating 3D geometry using camera vision information. And there many example, let us just take some commercial ones. We have structured light scanning which on the consumer end are represented by the ever-popular Kinect V1 and by GOM on the industrial end. We have more traditional passive stereo vision like Point Greys bumblebee stereo camera. Finally we things like structure from motion/photogrammitry like for example Autodesks structure-from-motion app (FIND EXAMPLE).
 
-There are two general methods for doing this, both of which are similar to the
-depth perception of we humans. First is stereoscopic 3D, that is having several simulanious
-observations. For example our two eyes gives us two slightly different perspective which
-we can use to deduce how far away on object is. It should be noted that this concept can of course
-be expanded to include more than two images.
-Second is having a temporal sequence of observations. For example we humans can also infer of structural information by simply moving around our environment
-and observing objects from different angles. This is referred to as structure from motion.
-
-Granted not all techniques falls neatly into one of these two categories, but
-this taxonomy is rather operational to my thesis.
-
+## Slide 3
 Both have in recent years reached a level of technological maturity where they
 are being moved out from the lab and into the real world. And by simply considering
 how useful our sense of depth is, it is easy to see why this technology would be useful
 for self-driving cars, robots, etc.
 
+## Slide 4
 However as any engineer knows, the move from lab to application is by no means trivial.
-It is frought with unforeseen problems and challenges and a lot of finetuning.
+It is frought with unforeseen problems and challenges and a lot of finetuning. And this is what I mean by applied 3D vision, this move from lab to the real-world applciation
 
-So it is this move from the lab to the real world that inspired my thesis.
-During these past three years and have been assessing the technological readiness
-of 3D vision technology, identifying key problems and adressing some of them.
+I was interested in knowing how far along this process we are, what are some of the key-challenges remaining for real-world application and if possible help solve some of them.
 
+## Slide 5
+((SHoudl be rewritten))
 Specifically I will go over three empirical studies.
-
+((SHoudl be rewritten))
 
 # Structured Light Biological Material
 
-This first study illustrates the problem of technological maturing well. Before we talk about it, we need to talk about one of the underlying assumptions behind 3D vision. We expect light to travel from a light source, hit some surface, prereably by scattered diffusely which we then observe with our cameras. While this kind of model is nice, because it is easy to work with it unfortunately does not describe well how much real-world material interacts with light.
+## Slide 6
+This first study illustrates some of the problems that can occur when moving technology into the real-world. But first what exactly do I mean by this title!? Well structured light refers to an active 3D scanning method (projector and camera), error analysis refers to a, well, analysis of the scanning error, but why biological material. What makes that so interesting?
 
-((Explain structured light))
+## Slide 7
+To talk about that, we first need to talk about one of the fundemental assumptions employed in almost all 3D vision regarding light's interaction with matter. Let us say that we have a surface we wish to observe with a camera. Over here we have a light surface, that emits light in various directions. One of it's rays hits the surface of interest and is reflected (preferably in a lambertion manner) into our camera, which is how our image is formed. This model is quite popular as it is easy to work with and yet quite powerful.
 
-A common way this assumption is broken is that light enters the medium, gets scattered around for a brief spell before being emitted into the environment. For example about 95% of the light emitted from human skin goes through a similar process, this means only 5% of the reflected light is actually well described by the vision model.
+## Slide 8
+However there are many materials which interacts with light in a way which is not well described by this kind of model. A common way this assumption is broken is that light is NOT reflected immediately upon contact with the surface, but rather enters the medium. It is scattered around for a brief spell before being emitted back into the environment. This begs the question how does this affect our vision technology, we can obviously still get 3D scan, but how accurate is it really? This was the motivating question behind this study.
 
-So we have quantatively studied how the measured 3D geometry is affected by this. Specifically we concentrated our efforts on structured light, which is a type of stereoscopic 3D vision where you project artifical texture onto the scene to make your scans more robust and accurate. I won't go into details with how it operates, but feel free to ask me after this talk if you are interested.
+## Slide 9
+A common everyday that exihibits this kind of subsurface scattering is biological material. For example human skin, only 5% of the reflected light is subject to the direct reflection our model is built upon. The remainig 95% goes throught his subsurface scattering event.
 
-Our model for describing the reconstruction error is fairly simple. Let us say that we have a measured point and a corresponding ground truth point, both with corresponding normals. By taking the difference we get the quantative error. We then assumed that this error can be described by a standard linear model based on view-geometry. (Check exact definition)
+## Slide 10
+((Show human face rendering with and without SSS))
 
-We can easily get the measured points. Just apply 3D vision to a given subsurface-scattering object. Getting the groundtruth is not so straightforward. Our solution to this was to coat the object with thin layer of diffuse material, specifically using a chalk paint spray. This practice is quite common with commercial structured light scanners and often required before performance can be garuanteed. So for example let us we wanted to analyse the reconstruction error of this lump of meat. First we perform a 3D scan then we chalk coat the object in careful manner so that it is not moved. Then we repeat the scan to get our reference.
+## Slide 11
+We could obviously not cover all materials and structured light methods in our study so we choose to focus on these three materials (skin, fat and muscle/meat). Regarding STL we chose two older, commonly used methods and two newer specifically designed to counteract this kind of global illumination.
 
-Obviously we could not feasibly cover all subsurface scattering materials or structured light technique in our study so we chose to focus on three type of biological tissue and four types of structured light 3D vision. Two of these represent older, but still widely used techniques and two represent newer methods that have been specifically engineered to deal with this kind of global illumination. We fitted a model to data collected in the aforementioned manner for each material, technique pair resulting in 12 models.
+## Slide 12
+To quantitatively study the error we used this simply linear model based on the view-geometry of the scene. This can both help us in understanding the error and in possibly correcting the measured geometry.
 
+## Slide 13
+As for data collection we first scanned a specimen, then coated it with a thin layer of chalk (from a chalk spray). This forces the surface to have the lambertian properties our model expects. So while it is not a ground truth persay, it will stay be a lot more accurate as any interference by subsurface effects is removed. The scan is then repeated.
+
+## Slide 15
 The results were rather interesting. We observed a positive average distance for all structured light methods. The newer methods has in general a lower bias than the older ones. However the much more of the error could be described with our model for the older methods. After correction all methods had the same average error. So it would seem that newer method simply deal better with the simpler geometrical aspects of the error, leaving behind a much tougher to describe core.
 
+## Slide 16
 We could also conclude that the magnitude of the error varies depending on the method and material in question, but generallly lies in the range [0.5mm;1.0mm]. This could cause problems for metrological application, but is probably not of signifance for say robotics.
 
-So in conclusion we have seen how subsurface scattering breaks the direct reflection assumption used in 3D vision. We have shown that this does result in a systematic error when scanning with structured light lying the range of [0.5mm;1.0mm]. Finally we have also shown that much of this error can be described and corrected for with a simple linear model based on view-geometry.
+## Slide 17
+Take-away messages
+  * Subsurface scattering does not break structured light scanning.
+  * Increases the reconstruction error depending on material and technique (max of about 1mm)
+  * Much error can be removed with a simple, linear model.
+
+# DC Robot
+We actually got to put this into practice in a collaborative project with Danish Crown. Here we aimed to build a robotic system that could perform bin-picking of meat cutouts. I am not going into much detail here other than saying we used structured light get accurate geometry of the box content. Then a region growing algorithm used this depth infromation to segment the various.
+
+I am not going to go into many details here other than showing you the system in action.
+
+So this demonstrates how 3D vision can be used to solve a previously unsolvable problem.
 
 # Non-Rigid Structure from Motion
 
+## Slide 18
 Moving on the next study, which is titled evaluation of non-rigid structure from motion (check). Here I will cover two of the key contributions we made to this field. Firstly the creation of a novel NRSfM dataset to be used for evaluation and second a thorough evaluation of the state of the art in NRSfM. But first let us just briefly discuss what NRSfM is and why it is important.
 
+## Slide 19
 Structure-from-motion is fairly well understood and field tested, but it makes assumption that the world is rigid and constant. And as we can probably all agree this assumption is often broken in the real-world as things move around or deform over time.
 
 Non-rigid structure-from-motion is basically structure-from-motion where this rigidity prior has been relaxed or fully removed. This makes the potential application much broader but also makes the reconstruction problem a lot harder.
 
+## Slide 20
 Let us take a look at the math behind SfM to see what I mean. Basically SfM is often modelled as a factorization problem, you have your observations which you would like to split into two matrices, encoding the camera geometry and scene geometry. For regular structure from motion we assume the scene geometry to be unchanging whereas we make no such assumption in NRSfM. Thus the DoF for this problem expands greatly. Thus while NRSfM has been long studied it is nowhere near the same maturity as regular SfM. For this reason I saw fit to contribute to the progression of this field.
 
+## Slide 21
 Reviewing the litterature in NRSfM it became pretty clear that there were no clear concensus on the state of the state of the art. There were speculations as to what methods were the best and what the primary problems were, but no real quantitative proof. This is partly to do with a lack of a common dataset with groundtruth. And as we have seen in other fields of computer vision, good datasets can be intrumental for good research.
 
+## Slide 22
 Prior data used has been mostly constrained to human motion capture (CMU MOCAP) and syntheticly animated sequences (shark). Thus we deemed it an important contribution to field that a proper dataset be created for comparison and went ahead with its creation. But before going into the design, let me highlight some the questions we wanted to answer.
 
+## Slide 23
 To highlight some of the questions we wanted to answer where:
   * Which algorithms gives the best results on average.
   * Which types motions are the most difficult to reconstruct. (consider removing)
   * How are missing observations best dealt with.
   * How important is the assumption of an orthographic camera?
 
+## Slide 24
 Our approach to creating a dataset capable of answering these questions was to use stop-motion. We created a series of stop-motion animatronics which mimics various forms of non-rigid deformations, such deflation, stretching, articulated motion etc.
 
+## Slide 25
 We then recorded this motion with in this setup. Here we have a structured light scanner mounted on a robotic arm in a completely light isolated environment. Thus we automatically recorded the needed data with a high quality ground truth created using structured light scanning. Importantly the ground truth is densely facilitating accurate surface normals and occlusion testing.
 
+## Slide 26
 To create 2D observations we took each of these 3D groundtruths and projected them using a virtual camera with 6 variations in camera motion. We did this, rather than just recording direct using hte robotics cameras, so that we could change the camera model in a controlled manner. Basically keep all factors the same, but project with a perspective camera or an orthographic camera.
 
+## Slide 27
 So that gives a total of 60 sequences with ground truth. In addition since we have accurate surface normals and dense scene geometry we can also accurately calculate missing observations from self-occlusions. This is novel and important contribution to the field, as you will later see.
 
+## Slide 28
 Now that we have created the dataset, we of course wanted to use it to answer the aforementioned questions. To do this we gathered source code from 16 (checknumber) NRSfM representing the state-of-the-art and used them to reconstruct all of our 60 observation sequences. Then we evaluated the "quality" of each reconstruction by calculating an error metric w.r.t. the corresponding groundtruth. While that error metric is shown here, I won't go into details during this presentation. You are of course welcome to ask me about it later.
 
+## Slide 29
 With this we can begin answering the questions we had. For instance these are the algorithms sorted according to the mean error without missing observations. While it seem that this method called Multibody is the superior one, taking a closer look at the data reveals a different story.
 
+## Slide 30
 Here are the error distributions of the algorithms with the five lowest reconstruction errors. As you can see they are quite similar and a one-way ANOVA yields a p-value of something like 40%. Thus the data points to the algorithms having very similar performance. It would seem that these various approaches have a performance ceiling of sorts.
 
+## Slide 31
 Viewing the results with missing observations however adds another layer to this story. Now some algorithms are missing from this list and this is due to them not being able to deal with missing data. Anyway as you can see most algorithms suffer a significant increase in error under the presence of missing observations. Only the Metric Projection remains relatively stable.
 
 As for CSF, KSTA and CSF2 our results are quite different from those reported in their respective papers. They concluded that they are almost unaffected by missing data up to 50%. We speculate that the reason for this dicrepency lies in the fact that they produced missing observations by simply removing random points. Thus they lack much of the inherient spatio-temporal structure of true occlusion-based missing observations, making it much easier to interpolate.
 
 This really highlights the importance of our occlusion-based missing observations in evaluation.
 
+## Slide 32
 As for the importance of the camera model, we initially expected this to have a large impact, but the data revealed another story. Here we have a scatter plot of all the reconstruction errors gathered. Each dot represent an experiment repeated with each camera model. As you can see it forms a linear tendency. This tendency has an approximate unit slope with a slight positive offset. From this we can conclude that perspective projected data does increase the error, but does not break the state-of-the-art in NRSfM. This indicates that moving away from the orthographic camera model does not seem to be as important for real-world usage.
 
+## Slide 33
 So in conclusion.
-  * Metric projection, CSF, CSF2, KSTA, MultiBody all seem to be the best and have similar performance.
-  * Metric projection gives good results and is relatively stable w,r,t missing obsrevations.
-  * DCT basis seems to be very ppor at handling missing observations.
-  * Moving away from the orthographic camera model does not seem to be as important.
+  * Created a new varied dataset with groundtruth and realistic missing data.
+  * Established ranking of NRSfM.
+  * Many methods are unable to handle occlusion-based mising data, so work is needed here.
+  * Affine camera assumption does not break under perspective projection.
 
 Sidenote Metric Projections matrix completion algorithm is a hyperalgorithm and could be applied to any NRSfM algorithm. It could be interesting to observe whether CSF or CSF2 could be improved by using this instead of their own approach.
+
+# Conclusion
+
+Moving back to the big picture.
+
+We have shown that 3D vision can be effectively used to solve some real world problems as mny work with Danish Crown and the metrological department of DTU has shown.
+We have seen that current 3D vision methods like structured light and NRSfM works fairly well even when their underlying assumptions are violated.
+Future challenges lies primarily in stability and robustness. For instance the state-of-the-art in NRSfM deals poorly with missing observations. Only method seems to be fairly robust.
+In a broader context reconstruction of deforming is still a challenge and is needed for the next big leap. Fortunately there are many promising direction whether it be via NRSfM or deformable SLAM methods such as NewCombe et al's DynamicFusion
