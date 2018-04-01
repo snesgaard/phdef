@@ -49,7 +49,7 @@ We could obviously not cover all materials and structured light methods in our s
 To quantitatively study the error we used this simply linear model based on the view-geometry of the scene. This can both help us in understanding the error and in possibly correcting the measured geometry.
 
 ## Slide 13
-As for data collection we first scanned a specimen, then coated it with a thin layer of chalk (from a chalk spray). This forces the surface to have the lambertian properties our model expects. So while it is not a ground truth persay, it will stay be a lot more accurate as any interference by subsurface effects is removed. The scan is then repeated.
+As for data collection we first scanned a specimen, then coated it with a thin layer of chalk (from a chalk spray). This forces the surface to have the lambertian properties our model expects. So while it is not a ground truth persay, it will stay be a lot more accurate as any interference by subsurface effects is removed. The scan is then repeated. (0.025mm - 0.05mm)
 
 ## Slide 15
 The results were rather interesting. We observed a positive average distance for all structured light methods. The newer methods has in general a lower bias than the older ones. However the much more of the error could be described with our model for the older methods. After correction all methods had the same average error. So it would seem that newer method simply deal better with the simpler geometrical aspects of the error, leaving behind a much tougher to describe core.
@@ -75,7 +75,7 @@ So this demonstrates how 3D vision can be used to solve a previously unsolvable 
 ## Slide 18
 Moving on the next study, which is titled evaluation of non-rigid structure from motion (check). Here I will cover two of the key contributions we made to this field. Firstly the creation of a novel NRSfM dataset to be used for evaluation and second a thorough evaluation of the state of the art in NRSfM. But first let us just briefly discuss what NRSfM is and why it is important.
 
-## Slide 19
+## Slide 19 (MISSING)
 Structure-from-motion is fairly well understood and field tested, but it makes assumption that the world is rigid and constant. And as we can probably all agree this assumption is often broken in the real-world as things move around or deform over time.
 
 Non-rigid structure-from-motion is basically structure-from-motion where this rigidity prior has been relaxed or fully removed. This makes the potential application much broader but also makes the reconstruction problem a lot harder.
@@ -83,7 +83,7 @@ Non-rigid structure-from-motion is basically structure-from-motion where this ri
 ## Slide 20
 Let us take a look at the math behind SfM to see what I mean. Basically SfM is often modelled as a factorization problem, you have your observations which you would like to split into two matrices, encoding the camera geometry and scene geometry. For regular structure from motion we assume the scene geometry to be unchanging whereas we make no such assumption in NRSfM. Thus the DoF for this problem expands greatly. Thus while NRSfM has been long studied it is nowhere near the same maturity as regular SfM. For this reason I saw fit to contribute to the progression of this field.
 
-## Slide 21
+## Slide 21 (MISSING)
 Reviewing the litterature in NRSfM it became pretty clear that there were no clear concensus on the state of the state of the art. There were speculations as to what methods were the best and what the primary problems were, but no real quantitative proof. This is partly to do with a lack of a common dataset with groundtruth. And as we have seen in other fields of computer vision, good datasets can be intrumental for good research.
 
 ## Slide 22
@@ -134,7 +134,7 @@ So in conclusion.
   * Many methods are unable to handle occlusion-based mising data, so work is needed here.
   * Affine camera assumption does not break under perspective projection.
 
-Sidenote Metric Projections matrix completion algorithm is a hyperalgorithm and could be applied to any NRSfM algorithm. It could be interesting to observe whether CSF or CSF2 could be improved by using this instead of their own approach.
+Sidenote Metric Projections matrix completion algorithm is a hyperalgorithm and could be applied to any NRSfM algorithm. It could be interesting to observe  whether CSF or CSF2 could be improved by using this instead of their own approach.
 
 # Conclusion
 
