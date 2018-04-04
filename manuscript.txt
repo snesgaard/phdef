@@ -8,9 +8,10 @@ I will elaborate on the meaning of title and the motivation behind my work.
 ## Slide 2
 So the first part; 3D vision as you probably know is process of estimating 3D geometry using camera vision information. And there many example, let us just take some commercial ones. We have structured light scanning which on the consumer end are represented by the ever-popular Kinect V1 and by GOM on the industrial end. We have more traditional passive stereo vision like Point Greys bumblebee stereo camera. Finally we things like structure from motion/photogrammitry like for example Autodesks structure-from-motion app (FIND EXAMPLE).
 
+From this we can see that 3D vision has reached a level of maturity where it is being moved from lab into real-world application.
+
 ## Slide 3
-Both have in recent years reached a level of technological maturity where they
-are being moved out from the lab and into the real world. And by simply considering
+ And by simply considering
 how useful our sense of depth is, it is easy to see why this technology would be useful
 for self-driving cars, robots, etc.
 
@@ -31,28 +32,41 @@ Specifically I will go over three empirical studies.
 This first study illustrates some of the problems that can occur when moving technology into the real-world. But first what exactly do I mean by this title!? Well structured light refers to an active 3D scanning method (projector and camera), error analysis refers to a, well, analysis of the scanning error, but why biological material. What makes that so interesting?
 
 ## Slide 7
+But first, the structured light this study is concerned with consists of a camera-projector pair. Similarily to a normal stereo camera setup, depth is determined using tringualation from the projector and camera. Correspondences are assignmed using the projected patterns directly.
+
+## Slide 7
 To talk about that, we first need to talk about one of the fundemental assumptions employed in almost all 3D vision regarding light's interaction with matter. Let us say that we have a surface we wish to observe with a camera. Over here we have a light surface, that emits light in various directions. One of it's rays hits the surface of interest and is reflected (preferably in a lambertion manner) into our camera, which is how our image is formed. This model is quite popular as it is easy to work with and yet quite powerful.
 
 ## Slide 8
 However there are many materials which interacts with light in a way which is not well described by this kind of model. A common way this assumption is broken is that light is NOT reflected immediately upon contact with the surface, but rather enters the medium. It is scattered around for a brief spell before being emitted back into the environment. This begs the question how does this affect our vision technology, we can obviously still get 3D scan, but how accurate is it really? This was the motivating question behind this study.
 
 ## Slide 9
-A common everyday that exihibits this kind of subsurface scattering is biological material. For example human skin, only 5% of the reflected light is subject to the direct reflection our model is built upon. The remainig 95% goes throught his subsurface scattering event.
+A common everyday that exihibits this kind of subsurface scattering is biological material, a good example of which is the matter that we humans are made out of. This rendering illustrates the imoprtance of SS quite well. On the left side the head is rendered taking SS into account and on the right side the rendering has been performed using just surface reflections. As you can see the left side appears quite alot more lifelike than the right, which seems like it is made of clay or plastic. Indeed only 5% of the observed light from skin is subject to the direct reflection our model is built upon. The remainig 95% goes throught his subsurface scattering event.
 
-## Slide 10
-((Show human face rendering with and without SSS))
+This is why our study focused on biological material, because it is a common exemplification of subsurface scattering.
+
 
 ## Slide 11
 We could obviously not cover all materials and structured light methods in our study so we choose to focus on these three materials (skin, fat and muscle/meat). Regarding STL we chose two older, commonly used methods and two newer specifically designed to counteract this kind of global illumination.
 
 ## Slide 12
-To quantitatively study the error we used this simply linear model based on the view-geometry of the scene. This can both help us in understanding the error and in possibly correcting the measured geometry.
+In order to do any quantitative evaluation you need two kinds of data, measurements and references. Biological material makes this quite tricky to obtain as it is deformanble and highly irregular. So we cannot know it shape apriory. Our solution to this problem was scannign in a two-step fashion. First we obtain our measurements by simply scannign the speciment with STL, as shown on the right. Then we coat the speciment with a thin layer of chalk, thus forcing the surface to be primarily diffusely reflective, as our STL model expects. We then performned a second scan to obtain the reference.
 
-## Slide 13
-As for data collection we first scanned a specimen, then coated it with a thin layer of chalk (from a chalk spray). This forces the surface to have the lambertian properties our model expects. So while it is not a ground truth persay, it will stay be a lot more accurate as any interference by subsurface effects is removed. The scan is then repeated. (0.025mm - 0.05mm)
+Now this is not "technically" a ground truth as we added material to force diffuse reflective properties. However our investigation indicates that the layer is about 50 microns thick on average, which is rather insignificant when compared to the findings of our study.
 
 ## Slide 15
-The results were rather interesting. We observed a positive average distance for all structured light methods. The newer methods has in general a lower bias than the older ones. However the much more of the error could be described with our model for the older methods. After correction all methods had the same average error. So it would seem that newer method simply deal better with the simpler geometrical aspects of the error, leaving behind a much tougher to describe core.
+The results were rather interesting. We observed an over estimation of depth, meaning the surface lies further away from the sensor than the refernece did. The median of which lies at about 0.5mm which is significantly higher than the thickness of the chalk layer. We would expect some overestimation as we added material when scanning the reference, but this alone cannot account for our observations. Interestingly all STL methods seems to be equally affected. On a more positve note, it would seem that SS does not break STL, it simply makes more inaccurate.
+
+
+## Slide 12
+As the error we observed seem rather systematic, we also attempted to describe and correct it.
+We did so with this simple linear model based on the view-geometry of the scene. This can both help us in understanding the error and in possibly correcting the measured geometry.
+
+## Slide 13
+Here we have the fitted models. We also the error expressed in RMS before and after correction with the model. As you can see we could reduce the error significantly for skin and meat/muscle. We see an reduction of approx. 50%. The model did seem effective on the fat scans, however here the error was rather low in the first place. Indeed the magnitude of reduction corresponds quite well with the thickness of the chalk layer.
+
+I speculate that this is due to fat exhibiting weaker subsurface scattering than skin and meat.
+
 
 ## Slide 16
 We could also conclude that the magnitude of the error varies depending on the method and material in question, but generallly lies in the range [0.5mm;1.0mm]. This could cause problems for metrological application, but is probably not of signifance for say robotics.
@@ -64,30 +78,41 @@ Take-away messages
   * Much error can be removed with a simple, linear model.
 
 # DC Robot
-We actually got to put this into practice in a collaborative project with Danish Crown. Here we aimed to build a robotic system that could perform bin-picking of meat cutouts. I am not going into much detail here other than saying we used structured light get accurate geometry of the box content. Then a region growing algorithm used this depth infromation to segment the various.
+Speaking of biological material we actually got to put this into practice in a collaborative project with Danish Crown. Specifically we studied bin-picking of meat cutouts at Ringsted Danish Crown. The system consists of a robotic arm with a suction cup gripper which is guided by a structured light scanner that we built.
 
-I am not going to go into many details here other than showing you the system in action.
+## Slide 18
+The scanner records the geometry of a box content filled with meat pieces, which the system then analyses in order to segment and classify the individual meat pieces. This is then used to guide the robot to the next target in order to do a lift. I won't go into further details in this presentation other than showing you the system in action. If you are curious you are of course welcome to ask me later.
 
-So this demonstrates how 3D vision can be used to solve a previously unsolvable problem.
+So this demonstrates how 3D vision can be used to solve a very difficult problem in robotics, bin-picking with deformable object. Prior art usually requires that either shape or position is known apriori. We show that we can relax these requires by scanning and analysing the scene geometry with structured light scanning. We of course demonstrated this by building the prototype you just saw at Danish Crown, Ringsted, and testing it on various meat cutouts of varying shapes and sizes.
 
 # Non-Rigid Structure from Motion
 
 ## Slide 18
 Moving on the next study, which is titled evaluation of non-rigid structure from motion (check). Here I will cover two of the key contributions we made to this field. Firstly the creation of a novel NRSfM dataset to be used for evaluation and second a thorough evaluation of the state of the art in NRSfM. But first let us just briefly discuss what NRSfM is and why it is important.
 
+As you can probably tell from the title and illustration it has got something to do with structure-from-motion and non-rigid objects.
+
 ## Slide 19 (MISSING)
-Structure-from-motion is fairly well understood and field tested, but it makes assumption that the world is rigid and constant. And as we can probably all agree this assumption is often broken in the real-world as things move around or deform over time.
+Structure-from-motion is the process of taking a sequence of image observations of an object from differen angles and using that to estimate the observed objects geometry.
+Structure-from-motion is fairly well understood and robust, and is even available in commercial user-end software as you saw before.
+However these techniques makes a critical assumption: it requires constant geometry meaning it does not change over the coruse of the sequence. And as we can probably all agree this assumption is often broken in the real-world as things move around or deform over time. For example humans and cars are not recosntructable with these kinds of methods.
 
 Non-rigid structure-from-motion is basically structure-from-motion where this rigidity prior has been relaxed or fully removed. This makes the potential application much broader but also makes the reconstruction problem a lot harder.
 
 ## Slide 20
 Let us take a look at the math behind SfM to see what I mean. Basically SfM is often modelled as a factorization problem, you have your observations which you would like to split into two matrices, encoding the camera geometry and scene geometry. For regular structure from motion we assume the scene geometry to be unchanging whereas we make no such assumption in NRSfM. Thus the DoF for this problem expands greatly. Thus while NRSfM has been long studied it is nowhere near the same maturity as regular SfM. For this reason I saw fit to contribute to the progression of this field.
 
+The first thing you do when you want to contribute to a field is of course reviewing the litterature. And for NRSfM that was quite a frustrating task.
+
 ## Slide 21 (MISSING)
-Reviewing the litterature in NRSfM it became pretty clear that there were no clear concensus on the state of the state of the art. There were speculations as to what methods were the best and what the primary problems were, but no real quantitative proof. This is partly to do with a lack of a common dataset with groundtruth. And as we have seen in other fields of computer vision, good datasets can be intrumental for good research.
+Reviewing the litterature in NRSfM it became pretty clear that there were no clear concensus on the state of the state of the art. <List options>
+There were speculations as to what methods were the best and what the primary problems were, but no real empirical fundation. Each author of course claims that his or her method is superior without much evidence to back it up.
+This is partly to do with a lack of a common dataset with groundtruth.
+And as we have seen in other fields of computer vision, good datasets can be intrumental for good research.
 
 ## Slide 22
-Prior data used has been mostly constrained to human motion capture (CMU MOCAP) and syntheticly animated sequences (shark). Thus we deemed it an important contribution to field that a proper dataset be created for comparison and went ahead with its creation. But before going into the design, let me highlight some the questions we wanted to answer.
+Prior data used has been mostly constrained to human motion capture (CMU MOCAP) and syntheticly animated sequences (shark). This is not quite representative of the true breath of deformations in the real-world. Furthermore the various authors use different dataset when evaluating their work, which further adds to the confusion. Another problem here is the matter of missing observations, it is not given with this data which observations are visible in each frame and which are missing due to e.g. self-occlusions.
+Thus we deemed it an important contribution to field that a proper dataset be created for comparison and went ahead with its creation. But before going into the design, let me highlight some the questions we wanted to answer.
 
 ## Slide 23
 To highlight some of the questions we wanted to answer where:
@@ -96,11 +121,17 @@ To highlight some of the questions we wanted to answer where:
   * How are missing observations best dealt with.
   * How important is the assumption of an orthographic camera?
 
+Explain MISSING OBSERVATIONS
+
 ## Slide 24
 Our approach to creating a dataset capable of answering these questions was to use stop-motion. We created a series of stop-motion animatronics which mimics various forms of non-rigid deformations, such deflation, stretching, articulated motion etc.
 
 ## Slide 25
-We then recorded this motion with in this setup. Here we have a structured light scanner mounted on a robotic arm in a completely light isolated environment. Thus we automatically recorded the needed data with a high quality ground truth created using structured light scanning. Importantly the ground truth is densely facilitating accurate surface normals and occlusion testing.
+We then recorded this motion with in this setup. Here we have a structured light scanner mounted on a robotic arm in a completely light isolated environment. Thus we automatically recorded the needed data with a high quality ground truth created using structured light scanning.
+
+Importantly the ground truth is densely facilitating accurate surface normals. Just as important it allows for performing occlusion testing for various points on the object's surface, thus we can at an arbitrary angle estimate which points are visible and which are not.
+
+EXPLAIN PRIOR missing observations!!!!
 
 ## Slide 26
 To create 2D observations we took each of these 3D groundtruths and projected them using a virtual camera with 6 variations in camera motion. We did this, rather than just recording direct using hte robotics cameras, so that we could change the camera model in a controlled manner. Basically keep all factors the same, but project with a perspective camera or an orthographic camera.

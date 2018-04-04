@@ -58,7 +58,7 @@
 }
 
 \frame{
-  \frametitle{Not Much Concensus on Priors}
+  \frametitle{Not Much Concensus on the Best Approach}
   \begin{minipage}{0.48\textwidth}
     \begin{itemize}
       \item Low-rank basis
@@ -89,7 +89,7 @@
   \frametitle{Important Questions}
   \begin{itemize}
     \item Which algorithms gives the best results on average?
-    \item Which types motions are the most difficult to reconstruct?
+    %\item Which types motions are the most difficult to reconstruct?
     \item How are missing observations best dealt with?
     \item How important is the assumption of an orthographic camera?
   \end{itemize}
@@ -226,7 +226,7 @@ Numbers are averages given in milimeters.
     \item Created a varied dataset with groundtruth and realistic missing observations.
     \item Established ranking of NRSfM algorithms.
     \item Many methods are unable to handle occlusion-based missing observations.
-    \item Affine camera assumption does not break under perspective projection.
+    \item Orthographic camera assumption does not break under perspective projection.
   \end{itemize}
   Consider implementing Metric Proj. matrix completion algorithm for filling missing observations.
 }
