@@ -76,6 +76,67 @@
 }
 
 \frame{
+  \frametitle{Low-Rank Basis}
+  \begin{align}
+    \mathbf{s}_f = c_{f1}\mathbf{\hat{s}}_1 + c_{f2}\mathbf{\hat{s}}_2 + \cdots + c_{fK}\mathbf{\hat{s}}_K,\\
+    \mathbf{W} = \underbrace{\mathbf{D}(\mathbf{C} \otimes \mathbf{I}_3)}_\mathbf{M}
+    \underbrace{
+      \begin{bmatrix}
+        \mathbf{\hat{s}}_1\\
+        \mathbf{\hat{s}}_2\\
+        \vdots\\
+        \mathbf{\hat{s}}_K
+      \end{bmatrix}
+    }_\mathbf{S},\label{eq:nrsfm_lowrank}
+  \end{align},
+  where
+  \begin{align*}
+    \mathbf{D} = \begin{bmatrix}
+      \mathbf{\hat{R}}_1 & \mathbf{0} & \cdots & \mathbf{0}\\
+      \mathbf{0} & \mathbf{\hat{R}}_2 & \cdots & \mathbf{0}\\
+      \vdots & \vdots & \ddots & \vdots\\
+      \mathbf{0} & \mathbf{0}  & \cdots & \mathbf{\hat{R}}_2\\
+    \end{bmatrix},
+    \mathbf{C} &= \begin{bmatrix}
+      c_{1, 1} & c_{1, 2} & \cdots & c_{1, K}\\
+      c_{2, 1} & c_{2, 2} & \cdots & c_{2, K}\\
+      \vdots & \vdots & \ddots & \vdots\\
+      c_{F, 1} & c_{F, 2} & \cdots & c_{F, K}\\
+    \end{bmatrix}
+  \end{align*}
+}
+
+\frame{
+  \frametitle{Temporal Smoothness using DCT}
+  \begin{align}
+    \mathbf{C} = \mathbf{\Omega}_T \begin{bmatrix}x_1& x_2 & \cdots & x_K\end{bmatrix} = \mathbf{\Omega}_T \mathbf{X},\\
+    \mathbf{W} =  \underbrace{\mathbf{D}(\mathbf{\Omega}_T \mathbf{X} \otimes \mathbf{I}_3)}_\mathbf{M}
+    \underbrace{
+      \begin{bmatrix}
+        \mathbf{\hat{s}}_1\\
+        \mathbf{\hat{s}}_2\\
+        \vdots\\
+        \mathbf{\hat{s}}_K
+      \end{bmatrix}
+    }_\mathbf{S},
+  \end{align}
+  where,
+  \begin{align*}
+    \mathbf{\Omega}_T = \begin{bmatrix}
+      \omega_{11} & \omega_{12} & \cdots & \omega_{1T}\\
+      \omega_{21} & \omega_{22} & \cdots & \omega_{2T}\\
+      \vdots      & \vdots      & \ddots & \vdots \\
+      \omega_{F1} & \omega_{F2} & \cdots & \omega_{FT}\\
+    \end{bmatrix},&
+    \text{  }\omega_{ft} = \frac{\sigma_t}{\sqrt{F}}\cos{\frac{\pi (2f - 1)(t - 1)}{2F}},\\
+    \sigma_t =& \begin{cases}
+      1 & \text{if $t=1$}\\
+      \sqrt{2} & \text{otherwise}
+    \end{cases}
+  \end{align*}
+}
+
+\frame{
   \frametitle{Previous Datasets}
   \setlength{\nrsfmwidth}{0.48\textwidth}
   \setlength{\nrsfmheight}{0.75\nrsfmwidth}
