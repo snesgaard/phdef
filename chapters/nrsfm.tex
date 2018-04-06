@@ -137,6 +137,42 @@
 }
 
 \frame{
+  \frametitle{Missing Observations}
+  \begin{minipage}{0.48\textwidth}
+    \begin{itemize}
+      \item The value of some $\mathbf{w}_{fp}$ are not known.
+      \item Mostly likely reasons are occlusions.
+    \end{itemize}
+  \end{minipage}
+  \begin{minipage}{0.48\textwidth}
+    \begin{align}
+      \mathbf{W} = \begin{bmatrix}
+        \mathbf{w}_{11} & \mathbf{w}_{12} & \cdots & \mathbf{w}_{1P}\\
+        \mathbf{w}_{21} & \mathbf{w}_{22} & \cdots & \mathbf{w}_{2P}\\
+        \vdots   & \vdots   & \ddots & \vdots\\
+        \mathbf{w}_{F1} & \mathbf{w}_{F2} & \cdots & \mathbf{w}_{FP}
+      \end{bmatrix}
+    \end{align}
+  \end{minipage}
+}
+
+\frame{
+  \frametitle{Matrix Completion}
+  \begin{algorithm}[H]
+    \For{$k\in K$} {
+      Fill missing entries: $\mathbf{Y}^{[k]} = Y(\mathbf{W}, \mathbf{Z}^{[k]})$\\
+      Estimate centroid: $\mathbf{t}^{[k]} = \begin{bmatrix}
+        E\left[\mathbf{y}^{[k]}_{1*}\right] & E\left[\mathbf{y}^{[k]}_{2*}\right] & \cdots & E\left[\mathbf{y}^{[k]}_{F*}\right]
+      \end{bmatrix}^\mathrm{T}$\\
+      Remove centroid: $\mathbf{\hat{Y}}^{[k]} = \mathbf{Y}^{[k]} - \begin{bmatrix} \mathbf{t}^{[k]} & \mathbf{t}^{[k]} & \cdots & \mathbf{t}^{[k]}  \end{bmatrix}$\\
+      Solve NRSfM factorization: $\mathbf{\hat{Y}}^{[k]} = \mathbf{M}^{[k]}\mathbf{S}^{[k]}$\\
+      Add centroid: $\mathbf{Z}^{[k + 1]} = \mathbf{M}^{[k]}\mathbf{S}^{[k]} + \begin{bmatrix} \mathbf{t}^{[k]} & \mathbf{t}^{[k]} & \cdots & \mathbf{t}^{[k]}  \end{bmatrix}$
+    }
+  \end{algorithm}
+  As established by~\cite{paladini2009factorization}.
+}
+
+\frame{
   \frametitle{Previous Datasets}
   \setlength{\nrsfmwidth}{0.48\textwidth}
   \setlength{\nrsfmheight}{0.75\nrsfmwidth}

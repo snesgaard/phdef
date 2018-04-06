@@ -11,6 +11,50 @@
 }
 
 \frame{
+  \frametitle{The Problem}
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+      \item Disorganized pile of deformable objects.
+      \item Automatic pick and place operation.
+      \item Focus on Danish Crown's meat packaging.
+    \end{itemize}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    Insert image
+  \end{minipage}
+}
+
+\frame{
+  \frametitle{Why 3D?}
+  \begin{center}
+    \begin{itemize}
+      \item Suction cups MUST be placed perpendicularly.
+      \item Physical extent needed for placement calculations.
+      \item Depth makes segmentation easier.
+    \end{itemize}
+  \end{center}
+}
+
+\frame{
+  \frametitle{Phase-Shifting Structured Light}
+  \begin{minipage}{0.55\textwidth}
+    Fine-grained pattern,
+    \begin{align*}
+      p_{K, n}(u, v) = \frac{1}{2} + \frac{1}{2}\cos\left(2\pi\left(\frac{n}{N} + uK\right)\right),
+    \end{align*}
+    where $K$ is the number of spatial periods and $n$ is the pattern number.
+
+    Use global unwrapper to determine $K$.
+  \end{minipage}
+  \begin{minipage}{0.4\textwidth}
+    \begin{figure}
+      \includegraphics[width=0.9\linewidth]{figures/ps_multi_phase}
+    \end{figure}
+  \end{minipage}
+}
+
+\frame{
   \frametitle{Guidance using Structured Light Scanning}
   \begin{figure}
     \centering
@@ -20,13 +64,32 @@
   \end{figure}
 }
 
-%\frame{
-%  \frametitle{Segmentation}
-%  \begin{figure}
-%    \centering
-%    \includegraphics[height=0.9\textheight]{figures/dc_seg}
-%  \end{figure}
-%}
+\frame{
+  \frametitle{Segmentation}
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+      \item Region growth.
+      \item Seeds at points of low curvature.
+      \item Growth terminates at high curvature or normal angles.
+      \item Neighborhood searches in imagespace.
+    \end{itemize}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \begin{figure}
+      \centering
+      \includegraphics[height=0.8\textheight]{figures/dc_seg}
+    \end{figure}
+  \end{minipage}
+}
+
+\frame{
+  \frametitle{Why no CNNs?}
+  \begin{itemize}
+    \item Need to run in real-time on a laptop CPU.
+    \item Not much time for training data collection and labelling.
+  \end{itemize}
+}
 
 \frame{
   \frametitle{Demonstration}
@@ -44,5 +107,6 @@
     \item Pick and place with deformable objects.
     \item Guidance using structured light.
     \item Working prototype demonstrated at Danish Crown, Ringsted.
+    \item ROS for IPC and process-level parallelization.
   \end{itemize}
 }
