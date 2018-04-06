@@ -10,6 +10,7 @@
   \end{figure}
 }
 
+\begin{comment}
 \frame{
   \frametitle{Structure-from-Motion}
   %\begin{figure}
@@ -28,6 +29,7 @@
   \end{minipage}
   %\end{figure}
 }
+\end{comment}
 
 \frame{
   \frametitle{Factorization of Structure-from-Motion}
@@ -58,7 +60,7 @@
 }
 
 \frame{
-  \frametitle{Not Much Concensus on the Best Approach}
+  \frametitle{Not Much Concensus on Priors}
   \begin{minipage}{0.48\textwidth}
     \begin{itemize}
       \item Low-rank basis
@@ -88,8 +90,8 @@
         \mathbf{\hat{s}}_K
       \end{bmatrix}
     }_\mathbf{S},\label{eq:nrsfm_lowrank}
-  \end{align},
-  where
+  \end{align}
+  where,
   \begin{align*}
     \mathbf{D} = \begin{bmatrix}
       \mathbf{\hat{R}}_1 & \mathbf{0} & \cdots & \mathbf{0}\\
@@ -139,18 +141,19 @@
 \frame{
   \frametitle{Missing Observations}
   \begin{minipage}{0.48\textwidth}
+    The value of some $\mathbf{w}_{fp}$ are not known due to:
     \begin{itemize}
-      \item The value of some $\mathbf{w}_{fp}$ are not known.
-      \item Mostly likely reasons are occlusions.
+      \item Occlusions.
+      \item Orientation relative to the camera.
     \end{itemize}
   \end{minipage}
   \begin{minipage}{0.48\textwidth}
     \begin{align}
       \mathbf{W} = \begin{bmatrix}
-        \mathbf{w}_{11} & \mathbf{w}_{12} & \cdots & \mathbf{w}_{1P}\\
-        \mathbf{w}_{21} & \mathbf{w}_{22} & \cdots & \mathbf{w}_{2P}\\
+        \mathbf{w}_{11} & \xcancel{\mathbf{w}_{12}} & \cdots & \mathbf{w}_{1P}\\
+        \mathbf{w}_{21} & \mathbf{w}_{22} & \cdots & \xcancel{\mathbf{w}_{2P}}\\
         \vdots   & \vdots   & \ddots & \vdots\\
-        \mathbf{w}_{F1} & \mathbf{w}_{F2} & \cdots & \mathbf{w}_{FP}
+        \mathbf{w}_{F1} & \xcancel{\mathbf{w}_{F2}} & \cdots & \mathbf{w}_{FP}
       \end{bmatrix}
     \end{align}
   \end{minipage}
@@ -328,35 +331,65 @@ Numbers are averages given in milimeters.
 
 \frame{
   \frametitle{Error Distribution of the Top Five Algorithms}
-  \begin{center}
-    \includegraphics[height = 0.8\textheight]{figures/algo_box}
-  \end{center}
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+      \item Equal mean performance.
+      \item One-way ANOVA p-value of 0.18.
+    \end{itemize}
+  \end{minipage}
+  \begin{minipage}{0.45\textwidth}
+    \begin{center}
+      \includegraphics[height = 0.8\textheight]{figures/boxplot_error_noncorrect}
+    \end{center}
+  \end{minipage}
   Adjusted for influence of other factors such as camera model, deformation type etc.
 }
 
 \frame{
   \frametitle{Influence of Missing Observations}
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+      \item Only MetricProj is relatively stable.
+      \item BALM decrease in error is probably a fluke (due to bad performance).
+      \item One-way ANOVA p-value of 0.018.
+    \end{itemize}
+  \end{minipage}
+  \begin{minipage}{0.45\textwidth}
+    \begin{figure}
+      \includegraphics[height = 0.7\textheight]{figures/boxplot_error_noncorrect_mis}
+    \end{figure}
+  \end{minipage}
   \begin{center}
     \includegraphics[width = \textwidth]{figures/miss_algo}
   \end{center}
-  Numbers are averages given in milimeters.
+  %Numbers are averages given in milimeters.
 }
 
 \frame{
   \frametitle{Influence of the Camera Model}
-  \begin{center}
-    \includegraphics[height = 0.8\textheight]{figures/ort_per_scatter}
-  \end{center}
-  Repeated experiments with different camera models. Fitted a line gives $y = 0.96x + 4.06$. ANOVA indicates a mean increase in error of $7.2mm$.
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+      \item Each point represents the reconstruction error of a combination of algorithm, camera path and deformation with input created using either orthographic or perspective projection.
+      \item fitted a line gives $y = 0.96x + 4.06$.
+      \item ANOVA indicates a mean increase in error of $7.2mm$.
+      \item State-of-the-art does not "break" under perspective projection.
+      \item Bear limited spatial extend of data in mind.
+    \end{itemize}
+  \end{minipage}
+  \begin{minipage}{0.45\textwidth}
+    \begin{center}
+      \includegraphics[height = 0.8\textheight]{figures/ort_per_scatter}
+    \end{center}
+  \end{minipage}
 }
 
 \frame{
   \frametitle{Conclusion}
-  \begin{itemize}
-    \item Created a varied dataset with groundtruth and realistic missing observations.
-    \item Established ranking of NRSfM algorithms.
-    \item Many methods are unable to handle occlusion-based missing observations.
-    \item Orthographic camera assumption does not break under perspective projection.
-  \end{itemize}
-  Consider implementing Metric Proj. matrix completion algorithm for filling missing observations.
+  \begin{description}
+    \item[Which algorithms gives the best results on average?] \hfill \\ Established ranking of NRSfM algorithms. Missing observation experiments points to MetricProj.
+    \item[How are missing observations best dealt with?] \hfill\\ Many methods are unable to handle occlusion-based missing observations. MetricProj seems to be the only stable one.
+    \item[How important is the assumption of an orthographic camera?] \hfill \\ Orthographic assumptions works under perspective projection, though with increased reconstruction error.
+  \end{description}
+
+  Consider implementing MetricProj matrix completion algorithm for filling missing observations.
 }
